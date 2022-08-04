@@ -9,6 +9,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// MUST HAVE MIDDLEWARE: loads dependent files from the PUBLIC folder
+app.use(express.static('public'));
 
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -84,6 +86,24 @@ function validateAnimal(animal) {
   }
   return true;
 }
+
+// getting "index.html" document route:
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+// getting "animals.html" document route:
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+// getting "zookeepers.html" document route:
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+// getting "wildcard route" in case uses requests a non existent route:
+// " * " this route ALWAYS COMES LAST or it will take precedence over the other routes!!
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
