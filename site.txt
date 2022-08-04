@@ -1,2 +1,0 @@
-site link:
-https://aqueous-brushlands-76497.herokuapp.com/api/animals
